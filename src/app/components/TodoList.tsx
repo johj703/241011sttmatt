@@ -15,7 +15,14 @@ const TodoList = ({ todos, onUpdateTodo, onDeleteTodo }: TodoListProps) => {
   return (
     <div>
       <h2>Todo List</h2>
-      <ul></ul>
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            <span>Complete</span>
+            <span>Delete</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
