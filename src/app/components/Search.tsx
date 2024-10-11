@@ -1,9 +1,25 @@
+import axios from "axios";
 import { useState } from "react";
 
-const SearchBar = () => {
+interface TodoFormProps {
+  onAddTodo: (newTodo: { title: string; contents: string }) => void;
+}
+
+const SearchBar = ({ onAddTodo }: TodoFormProps) => {
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
-  const addTodos = () => {};
+
+  const handleSubmit = () => {
+    const newTodo = { title, contents };
+    axios
+      .post(`http://localhost:4000/todos`, { ...newTodo, isDone: false })
+      .then((response) => {
+        onAddTodo(response.data);
+        setTitle("");
+        setContents("");
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <div className="flex">
       <div className="flex">
@@ -24,7 +40,7 @@ const SearchBar = () => {
           onChange={(e) => setContents(e.target.value)}
         />
       </div>
-      <button onClick={addTodos}>추가하기</button>
+      <button onClick={handleSubmit}>추가하기</button>
     </div>
   );
 };
